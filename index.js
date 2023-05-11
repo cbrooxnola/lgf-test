@@ -16,20 +16,65 @@ var _ = require('underbar');
  *
  * 4. To test your work, run the following command in your terminal:
  *
- *    npm start --prefix ./<YOUR_GITHUB_FOLDER>
+ *    npm start --prefix ./lgf-test
  *
  *    IMPORTANT: Make sure you replace <YOUR_GITHUB_FOLDER with your actual github folder name that is in your workspace.
  */
 
-var maleCount;
+var maleCount = (array) => {
+    let males = _.filter(array, function(customer){
+        return customer.gender === 'male';
+    });
 
-var femaleCount;
+    return males.length;
+};
 
-var oldestCustomer;
+var femaleCount = (array) => {
+    let females = _.reduce(array, function(acc, current){
+        if (current.gender === 'female'){
+            acc += 1;
+        }
+        return acc;
+    }, 0);
 
-var youngestCustomer;
+    return females;
+};
 
-var averageBalance;
+var oldestCustomer = (array) => {
+    let oldest = _.reduce(array, function(acc, current){
+        if (current.age > acc.age){
+            acc = current.name;
+        } 
+        return acc;
+    });
+
+    return oldest;
+};
+
+var youngestCustomer = (array) => {
+    let youngest = _.reduce(array, function(acc, current){
+        if (current.age < acc.age){
+            acc = current.name;
+        } 
+        return acc;
+    }, array[array.length - 1]);
+
+    return youngest;
+};
+
+var averageBalance = (array) => {
+    let bal = _.pluck(array, 'balance');
+    bal = _.map(bal, function(element){
+        let num = element.slice(1);
+        num = num.replace(',','');
+        return Number(num);
+    });
+    let sum = _.reduce(bal, function(total, element){
+        return total + element;
+    }, 0);
+    let average = (sum / bal.length);
+    return average;
+};
 
 var firstLetterCount;
 
