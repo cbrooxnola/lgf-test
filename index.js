@@ -76,9 +76,27 @@ var averageBalance = (array) => {
     return average;
 };
 
-var firstLetterCount;
+var firstLetterCount = (array, letter) => {
+    let first = _.reduce(array, function(acc, current){
+        if (current.name[0].toUpperCase() === letter.toUpperCase()){
+            acc += 1;
+        }
+        return acc;
+    }, 0);
 
-var friendFirstLetterCount;
+    return first;
+};
+
+var friendFirstLetterCount = (array, customer, letter) => {
+    let friendFirst = _.reduce(array, function(acc, current){
+        if (customer.friends[current][0].toUpperCase() === letter.toUpperCase()){
+            acc += 1; 
+        }
+        return acc;
+    }, 0);
+
+    return friendFirst;
+}
 
 var friendsCount;
 
