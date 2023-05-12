@@ -88,21 +88,59 @@ var firstLetterCount = (array, letter) => {
 };
 
 var friendFirstLetterCount = (array, customer, letter) => {
-    let friendFirst = _.reduce(array, function(acc, current){
-        if (customer.friends[current][0].toUpperCase() === letter.toUpperCase()){
-            acc += 1; 
+    let thisOne = _.filter(array, function(element){
+        return element.name === customer;
+    })[0];
+    let friendFirst = firstLetterCount(thisOne.friends, letter);
+    return friendFirst;
+};
+
+var friendsCount = (array, name) => {
+    let frndCnt = [];
+    _.each(array, function(customer){
+        _.each(customer.friends, function(element){
+            if (element.name === name){
+                frndCnt.push(customer.name);
+            }
+        });
+    });
+    return frndCnt;
+};
+
+var topThreeTags = (array) => {
+    let output = [];
+    let tagCount = _.reduce(array, function(acc, current){
+        for (let i = 0; i < current.tags.length; i++){
+            if (acc.hasOwnProperty(current.tags[i])){
+                acc[current.tags[i]]++;
+            } else {
+                acc[current.tags[i]] = 1;
+            } 
+        }   
+        return acc;       
+    }, {});
+    let hold = Object.entries(tagCount);
+    hold.sort((a, b) => b[1] - a[1]);
+    output.push(hold[0][0]);
+    output.push(hold[1][0]);
+    output.push(hold[2][0]);
+
+    return output;
+};
+
+var genderCount = (array) => {
+    let output = _.reduce(array, function(acc, current){
+        if (acc[current.gender]){
+            acc[current.gender] += 1;
+        } else {
+            acc[current.gender] = 1;
         }
         return acc;
-    }, 0);
+        
+        }, {});
 
-    return friendFirst;
-}
-
-var friendsCount;
-
-var topThreeTags;
-
-var genderCount;
+    return output;
+};
 
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
